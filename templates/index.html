@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <form action="/" method="post" enctype="multipart/form-data" class="mx-auto" style="max-width:500px;">
+        <div class="form-group">
+            <label for="xform-file">1. Choose XLSForm (.xls or .xlsx) file for conversion</label>
+            <input type="file" class="form-control-file" id="xform-file" name="xform-file" required>
+        </div>
+        <label>2. Choose conversion options</label>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-p" id="preexisting" name="options[]">
+            <label class="form-check-label" for="preexisting">
+                Prevent file overwrite
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-r" id="regular" name="options[]">
+            <label class="form-check-label" for="regular">
+                Non-PMA Xform
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-n" id="novalidate" name="options[]">
+            <label class="form-check-label" for="novalidate">
+                No validation
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-i" id="ignore_version" name="options[]">
+            <label class="form-check-label" for="ignore_version">
+                Ignore Versioning
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-l" id="linking_warn" name="options[]">
+            <label class="form-check-label" for="linking_warn">
+                Form linking warnings
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-d" id="debug" name="options[]">
+            <label class="form-check-label" for="debug">
+                Debug Mode
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-e" id="extras" name="options[]">
+            <label class="form-check-label" for="extras">
+                Extras Checks
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="-s" id="suffix" name="options[]">
+            <label class="form-check-label" for="suffix">
+                File Suffix
+            </label>
+        </div>
+        <hr/>
+        <button type="submit" class="btn btn-success mt-1 float-right">Convert</button>
+    </form>
+    <div class="clearfix mb-3"></div>
+
+    {% if stdout %}
+        <div class="alert alert-success message-bar" style="position:relative">
+            <span style="position:absolute;top:1px;right:10px;cursor:pointer;">x</span>
+            <pre>{{ stdout }}</pre>
+        </div>
+    {% endif %}
+
+    {% if stderr %}
+        <div class="alert alert-danger message-bar" style="position:relative">
+            <span style="position:absolute;top:1px;right:10px;cursor:pointer;">x</span>
+            <pre>{{ stderr }}</pre>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+    $('.message-bar span').on('click', function(){
+        $(this).closest('.message-bar').hide();
+    });
+</script>
+{% endblock %}
