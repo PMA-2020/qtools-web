@@ -1,7 +1,4 @@
-"""Web application for XFormTest
-
-http://xform-test.pma2020.org
-"""
+"""Web application"""
 import platform
 import os
 import flask
@@ -19,12 +16,13 @@ path_char = '\\' if is_windows else '/'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    """Index"""
     if flask.request.method == 'GET':
         return render_template('index.html')
     else:
         try:
-            file = request.files['xform-file']
-            filename = secure_filename(file.filename)
+            file_ = request.files['xform-file']
+            filename = secure_filename(file_.filename)
             upload_folder = basedir + path_char + 'temp_uploads'
             file_path = os.path.join(upload_folder, filename)
 
@@ -32,10 +30,10 @@ def index():
                 os.remove(file_path)
 
             try:
-                file.save(file_path)
-            except FileNotFoundError:
+                file_.save(file_path)
+            except EnvironmentError:
                 os.mkdir(upload_folder)
-                file.save(file_path)
+                file_.save(file_path)
 
             options_list = request.form.getlist('options[]')
             options = " ".join(options_list)
