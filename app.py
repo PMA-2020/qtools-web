@@ -48,22 +48,6 @@ def index():
             msg = 'An unexpected error occurred:\n\n' + str(err)
             return render_template('index.html', stderr=msg)
 
-@app.route('/qtools/<string:filename>')
-def xform_test(filename):
-    """ret = _run_terminal_command('java -jar xform-test-0.3.0.jar
-    temp_uploads\\MultipleTestCases.xml')
-    print('return value', ret)"""
-    command = 'java -jar xform-test-0.3.0.jar temp_uploads'+path_char+filename
-    try:
-        stdout, stderr = _run_background_process(command) if not is_windows else _run_windows_process(command)
-        # flash(out, "warning")
-        return render_template('index.html', error=stderr, out=stdout)
-    except Exception as err:
-        # TODO: @bciar: I'm getting an IDE error "unresolved attribute for
-        # base class Exception" - Joe 2018/11/06
-        error = err if not is_windows else err.stderr.decode("utf-8")
-        return render_template('index.html', error=err)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
